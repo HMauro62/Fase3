@@ -1,4 +1,5 @@
 import React from 'react';
+import { PostTema } from '../../types/ipostTema';
 
 const FilterForm: React.FC = () => {
 
@@ -54,7 +55,7 @@ const FilterForm: React.FC = () => {
                         </fieldset>
                     </div>
                     <button type="button" className="bg-blue-600 text-white px-4 py-2 rounded-lg
-                                hover:bg-blue-700 transition-colors font-medium text-sm" onClick={btnSearch}>
+                                hover:bg-blue-900 transition-colors font-medium text-sm" onClick={btnSearch}>
                         Pesquisar
                     </button>          
                 
