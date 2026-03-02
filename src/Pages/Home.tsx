@@ -1,14 +1,13 @@
-import FilterForm from '../components/Forms/FilterForm';
 import Navbar from '../components/Header/NavBar/NavBar2';
-import LstView from '../components/List/LstView';
+import Grid from './pageTeste';
 import '../index.css';
+import PagePai from './pagePai';
 
 function Home() {
   return (
     <div>
         <Navbar />
-        <FilterForm />
-        <LstView />
+        <PagePai />
     </div>
   );
 }

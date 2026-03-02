@@ -1,4 +1,4 @@
-export interface ipostTema {
+export default interface Post {
   userId?: number;
   id: number;
   category: string;
@@ -6,4 +6,4 @@ export interface ipostTema {
   descricao: string;
   dtcriacao: Date;
   dtalteracao?: Date;
-}
+};
