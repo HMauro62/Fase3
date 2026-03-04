@@ -9,12 +9,11 @@ interface Post {
     category: string;
     topic: string;
     description: string;
-    body: string;
 }
 
 function PagePai() {
 
-    const [dados, setDados] = useState<Post[]>([]);
+    const [dados, setDados] = useState<Post[] | unknown>([]);
 
     return (
         <div>

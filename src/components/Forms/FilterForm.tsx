@@ -1,16 +1,16 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 
+
 interface Post {
-    userId?: number;
+    userId?: number | unknown;
     id: number;
     category: string;
     topic: string;
-    description: string;
-    body: string;
+    description?: string | unknown;
 }
 
-type Filter = {
+interface Filter {
     category: string;
     topic: string;
 };
@@ -25,55 +25,81 @@ const FilterForm: React.FC<FilterProps> = ({ setDados }) => {
 
     const [filters, setFilters] = React.useState<Filter>({
         category: 'All',
-        topic: '',
+        topic: ' ',
     });
 
-    var url = '';
-    var nbody = '';
-
-    //alert('categoria ' + filters.category + ' tema ' + filters.topic);
-
-    switch (filters.category) {
-        case 'All':
-            url = 'http://localhost:3000/posts';
-            break;
-        default:
-            url = `http://localhost:3000/posts/category/${filters.category}`;
-            break;
+    const data: Filter = {
+        category: filters.category,
+        topic: filters.topic
     }
 
-    switch (filters.topic) {
-        case '':
-            break;
-        default:
-            url = `http://localhost:3000/posts?search/${filters.topic}`;
-            nbody = `{"topic": "${filters.topic}"}`;
-            break;
-    }
-
-    //alert('URL: ' + url);
-
-    const btnSearch = async () => {
+    const SearchPostsByGet = async () => {
         try {
             setError("");
 
-            const response = await axios.get<Post[]>(url);            
+            let Uri = '';
+
+            switch (filters.category) {
+                case 'All':
+                    Uri = 'http://localhost:3000/posts/';
+                    break;
+
+                default:
+                    Uri = `http://localhost:3000/posts/category/${filters.category}/`;
+                    break;
+            };
+
+            //alert('Uri ' + Uri + ' topic '+ filters.topic.toString().length);
+
+            if (filters.topic.toString().length > 1) {
+                    //setUri(prevUri => prevUri + 'topic/${filters.topic}/description/${filters.topic}');
+                    Uri += `topic/${filters.topic}/description/${filters.topic}`;                       
+            };
+
+            //alert('Uri ' + Uri);
+
+            const response = await axios.get<Post[]>(Uri);
             setDados(response.data);  // Atualiza state do componente pagePai
             setError(`Registros encontrados: ${response.data.length}`);
 
         } catch (err) {
             if (axios.isAxiosError(err)) {
                 setError(err.message);
-                alert(`Erro: ${err.message}`);
             } else {
                 setError("Erro ao buscar os dados");
-                alert("Erro ao buscar os dados");
             }
 
         };
-
     }
 
+    /* pesquisar por filtro :: complexo */
+
+    /*   const SearchPostsByPost = async (body: Filter) => {
+          try {
+              setError("");
+              
+              alert('url ' + url+body.topic);
+  
+              const response = await axios.post<Post[]>(url, {topic: body.topic});
+              setDados(response.data);  // Atualiza state do componente pagePai
+              setError(`Registros encontrados: ${response.data.length}`);
+  
+          } catch (err) {
+              if (axios.isAxiosError(err)) {
+                  setError(err.message);
+                  alert(`Erro: ${err.message}`);
+              } else {
+                  setError("Erro ao buscar os dados");
+                  alert("Erro ao buscar os dados");
+              }
+  
+          };
+      } */
+
+    function btnSearch() {
+        SearchPostsByGet();
+        //{ SearchPostsByPost(data); }
+    }
 
     function handleCategoryChange(event: React.ChangeEvent<HTMLSelectElement>) {
         setFilters({ ...filters, category: event.target.value })
@@ -108,7 +134,7 @@ const FilterForm: React.FC<FilterProps> = ({ setDados }) => {
 
                     <div className="w-full md:w-auto p-4 bg-blue-500 text-white rounded-lg">
                         <fieldset className='md:w-96'>
-                            <legend>Tema</legend>
+                            <legend>Palavras Chaves</legend>
                             <input type="string" id="topic" className=" text-black w-full" onChange={handleTopicChange} value={filters.topic} />
                         </fieldset>
                     </div>
@@ -120,7 +146,7 @@ const FilterForm: React.FC<FilterProps> = ({ setDados }) => {
                 </div>
                 <div className="flex flex-col md:flex-row justify-between items-center gap-4
                             bg-gray-50 p-6 py-2 md:px-96">
-                    {error && <p className="text-blue-500"><b>{error}</b></p>}  
+                    {error && <p className="text-blue-500"><b>{error}</b></p>}
                 </div>
             </form>
         </div>

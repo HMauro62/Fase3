@@ -7,7 +7,6 @@ interface Post {
     category: string;
     topic: string;
     description: string;
-    body: string;
 }
 
 interface ListaProps {
