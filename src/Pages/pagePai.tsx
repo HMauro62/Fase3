@@ -4,13 +4,12 @@ import LstView from '../components/List/LstView';
 
 
 interface Post {
-  userId?: number;
-  id: number;
-  category: string;
-  tema: string;
-  descricao: string;
-  dtcriacao: Date;
-  dtalteracao?: Date;
+    userId?: number;
+    id: number;
+    category: string;
+    topic: string;
+    description: string;
+    body: string;
 }
 
 function PagePai() {
