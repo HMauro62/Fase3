@@ -1,0 +1,66 @@
+hamburguer
+ {isOpen ? <X size={28} /> : <Menu size={28} />} 
+
+
+          {/* Botão Menu Mobile (Hamburger) */}
+          <div className="md:hidden flex items-center">
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="text-gray-700 hover:text-blue-600 focus:outline-none"
+            >          
+            </button>
+          </div>
+
+   {/* Menu Mobile - Aparece ao clicar no hamburger */}
+      {isOpen && (
+        <div className="bg-gray-50 border-t border-gray-200 p-4 space-y-2">
+          <Link to="Login" className="block text-gray-700 hover:bg-blue-50 px-3 py-2 rounded-md font-medium">
+            Login
+          </Link>
+        </div>
+
+
+
+type Props = {
+  children: ReactNode;
+};
+
+💡 Dica importante:
+Se você estiver usando verbatimModuleSyntax: true, o TypeScript exige usar import type quando importar tipos.
+O import type garante que o import seja somente de tipo, não vira código JS.
+
+!!
+Em TypeScript (e JavaScript), a utilização de duas exclamações juntas (!!variavel) é uma forma curta e comum de converter qualquer valor em um booleano (true ou false)
+
+chamada POST
+   const response = await fetch("https://api.meusite.com/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ email, password })
+      });
+
+      if (!response.ok) return false;
+
+      const data: LoginResponse = await response.json();
+
+      setUser(data.user);
+      setToken(data.token);
+
+      localStorage.setItem("token", data.token);	
+
+
+
+2.post
+      const response = await api.post("/login", {
+        email,
+        password
+      })
+
+
+
+
+
+
+

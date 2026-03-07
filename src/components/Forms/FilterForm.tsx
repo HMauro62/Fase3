@@ -1,14 +1,6 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-
-
-interface Post {
-    userId?: number | unknown;
-    id: number;
-    category: string;
-    topic: string;
-    description?: string | unknown;
-}
+import type { Post } from '../../types/Post';
 
 interface Filter {
     category: string;

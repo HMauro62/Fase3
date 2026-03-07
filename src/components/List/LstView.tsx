@@ -1,13 +1,7 @@
 import { ArrowUp , ArrowDown  } from "lucide-react";
 import { useState } from 'react';
+import type { Post } from '../../types/Post'
 
-interface Post {
-    userId?: number;
-    id: number;
-    category: string;
-    topic: string;
-    description: string;
-}
 
 interface ListaProps {
     dados: Post[];

@@ -1,15 +1,8 @@
 import { useState } from 'react';
 import FilterForm from '../components/Forms/FilterForm';
 import LstView from '../components/List/LstView';
+import type { Post } from '../types/Post'
 
-
-interface Post {
-    userId?: number;
-    id: number;
-    category: string;
-    topic: string;
-    description: string;
-}
 
 function PagePai() {
 
