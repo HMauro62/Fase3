@@ -1,75 +1,38 @@
-# React + TypeScript + Vite
+Utilizar para esse projeto:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+npm create vite@latest my-project -- --template react
+cd my-project
 
-Currently, two official plugins are available:
+Versão 3.x
+npm install -D tailwindcss@3 postcss autoprefixer 
+npx tailwindcss init -p
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+npm install react-router-dom
+npm install lucide-react   ---> para icones
 
-## React Compiler
+Para rodar o react: npm run dev.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+Também precisa alterar o tsconfig.json para redefinir   "verbatimModuleSyntax": true.
+Assim consegue importar os types definidos.
 
-Note: This will impact Vite dev & build performances.
+Atalhos úteis no VSCode:
 
-## Expanding the ESLint configuration
+Comentar/Descomentar em bloco  
+shift + alt + A
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+Limpar o cache do typescript
+Ctrl+Shf+P
+digita: Typescript: Restart TS Server
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+Refresh VSCode
+Ctrl+Shf+P
+digita: Developer: Reload Window 
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+O Projeto da api precisa incorporar as instruções abaixo, devido ao CORS. Se não dá erro:
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // Substitua * pelo seu domínio em produção
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+Debug React no navegar. Visite https://react.dev/learn/react-developer-tools
