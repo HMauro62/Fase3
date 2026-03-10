@@ -64,30 +64,6 @@ const FilterForm: React.FC<FilterProps> = ({ setDados }) => {
         };
     }
 
-    /* pesquisar por filtro :: complexo */
-
-    /*   const SearchPostsByPost = async (body: Filter) => {
-          try {
-              setError("");
-              
-              alert('url ' + url+body.topic);
-  
-              const response = await axios.post<Post[]>(url, {topic: body.topic});
-              setDados(response.data);  // Atualiza state do componente pagePai
-              setError(`Registros encontrados: ${response.data.length}`);
-  
-          } catch (err) {
-              if (axios.isAxiosError(err)) {
-                  setError(err.message);
-                  alert(`Erro: ${err.message}`);
-              } else {
-                  setError("Erro ao buscar os dados");
-                  alert("Erro ao buscar os dados");
-              }
-  
-          };
-      } */
-
     function btnSearch() {
         SearchPostsByGet();
         //{ SearchPostsByPost(data); }

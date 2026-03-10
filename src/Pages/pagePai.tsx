@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import FilterForm from '../components/Forms/FilterForm';
 import LstView from '../components/List/LstView';
-import type { Post } from '../types/Post'
-
+import type { Post } from '../types/Post';
 
 function PagePai() {
 

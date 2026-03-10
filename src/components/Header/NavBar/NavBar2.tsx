@@ -1,50 +1,59 @@
-import { useState } from 'react';
-import { Menu, X, UserLock  } from 'lucide-react'; 
+import { DoorClosedLocked, DoorOpen } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { useAuth } from "../../hooks/useAuth";
 
-function Navbar() {
-  const [isOpen, setIsOpen] = useState(false);
 
-  return (
-    <nav className="bg-white shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Container Principal */}
-        <div className="flex justify-between items-center h-16">
-          
-          {/* Logo à Esquerda */}
-          <div className="flex-shrink-0 flex items-center">
-            <span className="text-2xl font-bold text-blue-600 px-3">AvisaLá</span>
-          </div>
+/*{ type NavBarProps = É um tipo TypeScript que define quais propriedades (props) o 
+  componente NavBar aceita.
+  Útil segurança de tipos, autocompletar do vscode, validação de retono - 
+  garante que o coponente retorne um JSX }*/
+type NavBarProps = {};
 
-          {/* Botão Login - Visível apenas em Desktop (md+) */}
-          <div className="hidden md:flex items-center space-x-4">
-            <a href="#" className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium">
-              <UserLock className="size-6" />
-            </a>
-          </div>
+const NavBar: React.FC<NavBarProps> = () => {
 
-          {/* Botão Menu Mobile (Hamburger) */}
-          <div className="md:hidden flex items-center">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-700 hover:text-blue-600 focus:outline-none"
-            >
-              {isOpen ? <X size={28} /> : <Menu size={28} />}
-            </button>
-          </div>
-        </div>
-      </div>
+  // get the context object first, it may be null
+  const auth = useAuth();
+  const user = auth?.user;
+  const logout = auth?.logout;
 
-      {/* Menu Mobile - Aparece ao clicar no hamburger */}
-      {isOpen && (
-        <div className="md:hidden bg-gray-50 border-t border-gray-200 p-4 space-y-2">
-          <a href="#" className="block text-gray-700 hover:bg-blue-50 px-3 py-2 rounded-md font-medium">
-            Login
-          </a>
-        </div>
-      )}
-    </nav>
-  );
+
+  const handleLogout = () => {
+    if (logout) { 
+       logout();
+    }
 };
 
-export default Navbar;
+
+return (
+  <nav className="bg-white shadow-md">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+      {/* Container Principal */}
+      <div className="flex justify-between items-center h-16">
+
+        {/* Logo à Esquerda */}
+        <div className="flex-shrink-0 flex items-center">
+          <span className="text-2xl font-bold text-blue-600 px-3">AvisaLá</span>
+        </div>
+
+        {/* Botão Login - Visível apenas em Desktop (md+) */}
+        {user ? (
+          <div className="block md:flex items-center space-x-4">
+            <span>{user.email}</span>
+            <button onClick={handleLogout}><DoorOpen className="size-6" /></button>
+          </div>
+        ) : (
+          <div className="block md:flex items-center space-x-4">
+            <Link to="LoginPage" className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium">
+              <DoorClosedLocked className="size-6" />
+            </Link>
+          </div>
+        )}
+      </div>
+    </div>
+  </nav>
+);
+}
+
+export default NavBar;
