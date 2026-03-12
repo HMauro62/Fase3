@@ -61,7 +61,7 @@ export const  AuthProvider = ({ children }: Props) => {
       }
 
     } catch {        
-        console.log("não teve retotno");
+        console.log("Chamada a Api falhou");
       return false;
     }
   }
