@@ -10,5 +10,5 @@ export const useAuth = () => {
     console.error("useAuth deve estar dentro do AuthProvider/AuthContext")
   }
 
-  return context
+  return context;
 }

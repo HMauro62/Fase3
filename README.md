@@ -10,10 +10,21 @@ npx tailwindcss init -p
 npm install react-router-dom
 npm install lucide-react   ---> para icones
 
-Para rodar o react: npm run dev.
+Obs:
+1) Para rodar o react: npm run dev.
 
 Também precisa alterar o tsconfig.json para redefinir   "verbatimModuleSyntax": true.
 Assim consegue importar os types definidos.
+
+2) Para evitar erros na politica do CORS, inclua o trecho abaixo no server.js da Api:
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*"); // Substitua * pelo seu domínio em produção
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
+
 
 Atalhos úteis no VSCode:
 

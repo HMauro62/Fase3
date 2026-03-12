@@ -2,8 +2,6 @@ import { DoorClosedLocked, DoorOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { useAuth } from "../../hooks/useAuth";
 
-
-
 /*{ type NavBarProps = É um tipo TypeScript que define quais propriedades (props) o 
   componente NavBar aceita.
   Útil segurança de tipos, autocompletar do vscode, validação de retono - 
@@ -37,10 +35,9 @@ return (
           <span className="text-2xl font-bold text-blue-600 px-3">AvisaLá</span>
         </div>
 
-        {/* Botão Login - Visível apenas em Desktop (md+) */}
         {user ? (
           <div className="block md:flex items-center space-x-4">
-            <span>{user.email}</span>
+            <span>{user?.userName}</span>
             <button onClick={handleLogout}><DoorOpen className="size-6" /></button>
           </div>
         ) : (

@@ -13,26 +13,55 @@ export const  AuthProvider = ({ children }: Props) => {
 
   const [user, setUser] = useState<UserType | null>(null);
 
-  const login = async (email: string, password: string) => {
+  const login = async (username: string, password: string) => {
 
     try {
 
-      const res = await api.post("/Login", {
-        email,
-        password
-      });
+      //const res = await api.post("/loginUser", {username, password});
+      var request = `/loginUser/username/${username}/password/${password}`;
 
-      const data = res.data;
+      console.log(request);
 
-      setUser({
-        userId: data.userId,
-        username: data.user,
-        email: data.email,
-      });
+      const response = await api.get(request)
 
-      return true;
+      const dados = response.data;
 
-    } catch {
+        console.log(response.status + ' ' + response.statusText );
+
+        if (typeof dados.Id === "number") {
+          console.log('O Id do usuario é numero')
+        } else {
+          console.log('O Id do usuario é string')
+        }
+
+        console.log(response)
+/*
+        if (typeof parseFloat(dados.Id) === "number"){
+          console.log('agora o Id do usuario é numero')
+        } */
+
+        console.log('id ' + dados.id);
+
+        if (response.status === 200) {
+
+            setUser({
+              userId: dados.id,
+              userName: username,
+              Email: dados.email,
+            }); 
+
+            //setUser(dados)
+              
+            console.log("saida Id: [" + user?.userId + ']');
+
+            return true;
+      } else {
+
+        return false;
+      }
+
+    } catch {        
+        console.log("não teve retotno");
       return false;
     }
   }
