@@ -52,7 +52,7 @@ export const  AuthProvider = ({ children }: Props) => {
 
             //setUser(dados)
               
-            console.log("saida Id: [" + user?.userId + ']');
+            console.log("saida Id: [" + user.userId + ']');
 
             return true;
       } else {
