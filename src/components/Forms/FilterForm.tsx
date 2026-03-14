@@ -78,7 +78,7 @@ const FilterForm: React.FC<FilterProps> = ({ setDados }) => {
     }
 
     return (
-        <div className="p-4">
+        <div className="p-3">
             {/* 
         flex-col: empilha as divs (mobile)
         md:flex-row: coloca em linha (desktop/telas médias)
@@ -111,7 +111,7 @@ const FilterForm: React.FC<FilterProps> = ({ setDados }) => {
                                             <button type="button" className="bg-blue-600 text-white px-4 py-2 rounded-lg
                                 hover:bg-blue-900 transition-colors font-medium text-sm" onClick={() => btnSearch()}>
                         Pesquisar
-                    </button>
+                    </button>                  
                     </div>
 
                 </div>

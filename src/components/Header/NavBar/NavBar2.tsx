@@ -1,25 +1,30 @@
 import { DoorClosedLocked, DoorOpen } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useAuth } from "../../hooks/useAuth";
 
 /*{ type NavBarProps = É um tipo TypeScript que define quais propriedades (props) o 
   componente NavBar aceita.
   Útil segurança de tipos, autocompletar do vscode, validação de retono - 
   garante que o coponente retorne um JSX }*/
-type NavBarProps = {};
+type NavBarProps = {
+  nomeUsuario: String;
+};
 
-const NavBar: React.FC<NavBarProps> = () => {
+const NavBar: React.FC<NavBarProps> = ({nomeUsuario}) => {
 
   // get the context object first, it may be null
   const auth = useAuth();
   const user = auth?.user;
   const logout = auth?.logout;
 
-
   const handleLogout = () => {
     if (logout) { 
        logout();
     }
+
+    const navigate = useNavigate();
+
+    navigate("/", { state: { id: "", name: "" }});
 };
 
 
@@ -35,9 +40,9 @@ return (
           <span className="text-2xl font-bold text-blue-600 px-3">AvisaLá</span>
         </div>
 
-        {user ? (
+        {nomeUsuario ? (
           <div className="block md:flex items-center space-x-4">
-            <span>{user?.userName}</span>
+            <span>{nomeUsuario}</span>
             <button onClick={handleLogout}><DoorOpen className="size-6" /></button>
           </div>
         ) : (

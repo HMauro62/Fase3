@@ -1,7 +1,7 @@
 export type Post = {
-  userId?: string;
+  user_id: string;
   id: string;
   category: string;
   topic: string;
-  description: string;
+  description: string;  
 };

@@ -4,10 +4,12 @@ import type { Post } from '../../types/Post'
 import axios from "axios";
 import FormInsertUpdate from "../Forms/FormInsertUpdate";
 import React from "react";
+import type { DadosLogin } from "../../types/DadosLogin";
 
 
 interface ListaProps {
     dados: Post[];
+    dadosLogin: DadosLogin;
 }
 
 async function btnExcluir(id: string) {
@@ -18,18 +20,21 @@ async function btnExcluir(id: string) {
         let Uri = `http://localhost:3000/posts/` + id;
 
         const response = await axios.delete(Uri);
+
+        if (response.status === 200)
+            window.location.reload();
     }
 
 }
 
-function LstView({ dados }: ListaProps) {
+function LstView({ dados, dadosLogin }: ListaProps) {
 
     const [linhaOculta, setLinhaOculta] = useState<string | null>(null);
 
     const [exibirPainelInsertUpdate, setExibirPainelInsertUpdate] = useState(false);
     
     const [postAtual, setPostAtual] = useState<Post>({
-        userId: '',
+        user_id: '',
         category: '',
         topic: '',
         description: '',
@@ -37,10 +42,6 @@ function LstView({ dados }: ListaProps) {
       });
 
     const handleNotify = async (filhoDiz: React.SetStateAction<string>) => {     
-
-      //const response = await axios.get<Post[]>('http://localhost:3000/posts/');
-
-      //setExibirPainelInsertUpdate(false);
 
       window.location.reload();
 
@@ -74,13 +75,13 @@ function LstView({ dados }: ListaProps) {
                         style={{ backgroundColor: '#4CAF50', color: 'white', padding: '10px 20px', border: 'none', cursor: 'pointer' }} 
                         onClick={() => {setExibirPainelInsertUpdate(true); 
                             setPostAtual({
-                                userId: '',
+                                user_id: '',
                                 category: '',
                                 topic: '',
                                 description: '',
                                 id: ''                    
                             })}}
-                        hidden={exibirPainelInsertUpdate}
+                        hidden={exibirPainelInsertUpdate || !dadosLogin}
                         >
                             Novo
                         </button>      
@@ -98,7 +99,7 @@ function LstView({ dados }: ListaProps) {
                <div className="p-3"></div>     
 
             {exibirPainelInsertUpdate && 
-              <FormInsertUpdate initialData={postAtual} onGravar={handleNotify}  />
+              <FormInsertUpdate initialData={postAtual} onGravar={handleNotify} userId={dadosLogin.id} />
             }              
                 {!exibirPainelInsertUpdate && dados.map((item) => (
 
@@ -110,8 +111,8 @@ function LstView({ dados }: ListaProps) {
                             <div className={`bg-blue-500 text-white`} style={containerStyle}>
                                 <div className={`bg-blue-500 text-white p-1`}><b>{item.topic}</b></div>
                                       <div style={iconWrapperStyle}>
-                                <Pencil color="white" onClick={() => {setExibirPainelInsertUpdate(true); setPostAtual(item)}}/>                                
-                                <Trash color="white"  onClick={() => btnExcluir(item.id)}/>  
+                                {dadosLogin && (dadosLogin.id === item.user_id) && <Pencil color="white" onClick={() => {setExibirPainelInsertUpdate(true); setPostAtual(item)}}/> }                               
+                                {dadosLogin && (dadosLogin.id === item.user_id) && <Trash color="white"  onClick={() => btnExcluir(item.id)}/>  }
                                     </div>
                             </div>
                             <div style={containerStyle}>                            

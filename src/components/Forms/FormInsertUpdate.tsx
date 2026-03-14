@@ -6,12 +6,13 @@ import { toast } from 'react-toastify';
 interface Props {
   initialData?: Post;
   onGravar: any;
+  userId: string;
 }
 
-const FormInsertUpdate: React.FC<Props> = ({ initialData, onGravar }) => {
+const FormInsertUpdate: React.FC<Props> = ({ initialData, onGravar, userId }) => {
   // Inicializa o estado com dados existentes (edição) ou campos vazios (inclusão)
   const [formData, setFormData] = useState<Post>({
-    userId: initialData?.userId || '',
+    user_id: initialData?.user_id || '',
     category: initialData?.category || '',
     topic: initialData?.topic || '',
     description: initialData?.description || '',
@@ -41,13 +42,18 @@ const FormInsertUpdate: React.FC<Props> = ({ initialData, onGravar }) => {
   };     
 
   async function btnGravar() {
+   
+    if (!formData.category) {
+      window.alert("Informe a categoria");
+      return;
+    }
 
     let Uri = `http://localhost:3000/posts/`;
     let response: Response;
 
     if (!formData.id || (formData.id === '')) {
         response = await axios.post(Uri, {
-        user_id: '0de53826-f001-4c15-9793-2aac76091aee',
+        user_id: userId,
         category: formData.category,
         topic: formData.topic,
         description: formData.description        
@@ -56,14 +62,12 @@ const FormInsertUpdate: React.FC<Props> = ({ initialData, onGravar }) => {
         response = await axios.put(Uri + formData.id, formData);
     }
 
-    if (response.status == 201) {
-      formData.userId = '';
+    if ((response.status === 200) || (response.status === 201)) {
+      formData.user_id = '';
       formData.category = '';
       formData.topic = '';
       formData.description = '';
-      onGravar("Gravou");
-      //toast.success("Inclusão/Alteração feita com sucesso!", { position: "top-left" });
-      //setTimeout(() => {window.location.reload()}, 3000);    
+      onGravar("Gravou");   
     }
 
   }
@@ -80,6 +84,7 @@ const FormInsertUpdate: React.FC<Props> = ({ initialData, onGravar }) => {
           onChange={handleChangeSelect}
           style={{ width: '100%', display: 'block' }}
         >
+              <option value="Selecione..."></option>          
               <option value="Português">Português</option>
               <option value="Literatura">Literatura</option>                                
               <option value="Redação">Redação</option>     

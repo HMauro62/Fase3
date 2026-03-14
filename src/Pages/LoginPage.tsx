@@ -3,6 +3,9 @@ import { useState } from "react";
 import { useAuth } from '../components/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
 import { AuthProvider } from '../components/context/AuthContext';
+import type { Post } from "../types/Post";
+import axios from "axios";
+import type { UserType } from "../types/User";
 
 function LoginPage() {
   const auth = useAuth();            // Pode ser nulo
@@ -20,7 +23,21 @@ function LoginPage() {
 
     await login(username, password);
 
-    navigate("/");
+    //navigate("/");
+  }
+
+  async function btnLogin() {
+    let Uri = 'http://localhost:3000/users/loginUsuario';
+
+    const dadosLogin = {
+      username: username,
+      password: password
+    }
+
+    const response = await axios.post(Uri, dadosLogin);
+
+    if (response.status == 200)
+      navigate("/", { state: { id: response.data.id, name: response.data.name }});
   }
 
   return (
@@ -57,6 +74,7 @@ function LoginPage() {
       <button 
        type="submit"
        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded"
+       onClick={() => btnLogin()}
        >Login</button>
     </form>
     </div>   
