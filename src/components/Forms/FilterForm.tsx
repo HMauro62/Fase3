@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import type { Post } from '../../types/Post';
+import type { DadosLogin } from "../../types/DadosLogin";
 
 interface Filter {
     category: string;
@@ -9,9 +10,13 @@ interface Filter {
 
 interface FilterProps {
     setDados: React.Dispatch<React.SetStateAction<Post[]>>;
+    dadosLogin: DadosLogin;
 }
 
-const FilterForm: React.FC<FilterProps> = ({ setDados }) => {
+
+const FilterForm: React.FC<FilterProps> = ({setDados , dadosLogin}) => {
+
+    console.log('usuario logado?' + dadosLogin.id);
 
     const [error, setError] = useState<string>('');
 
@@ -30,30 +35,51 @@ const FilterForm: React.FC<FilterProps> = ({ setDados }) => {
             setError("");
 
             let Uri = '';
+            
+            if (!!dadosLogin.id === true) {
 
-            switch (filters.category) {
-                case 'All':
-                    Uri = 'http://localhost:3000/posts/';
-                    break;
+                  switch (filters.category) {
+                        case 'All':
+                            Uri = `http://localhost:3000/posts/prof/${dadosLogin.id}`;
+                            break;
 
-                default:
-                    Uri = `http://localhost:3000/posts/category/${filters.category}/`;
-                    break;
-            };
+                        default:
+                            Uri = `http://localhost:3000/posts/prof/${dadosLogin.id}category/${filters.category}/`;
+                            break;
+                    };           
+                    
+                    if (filters.topic.toString().length > 1) {
+                                //setUri(prevUri => prevUri + 'topic/${filters.topic}/description/${filters.topic}');
+                                Uri += `topic/${filters.topic}/description/${filters.topic}`;                       
+                        };
+                    
 
-            //alert('Uri ' + Uri + ' topic '+ filters.topic.toString().length);
+            } else 
+                {
 
-            if (filters.topic.toString().length > 1) {
-                    //setUri(prevUri => prevUri + 'topic/${filters.topic}/description/${filters.topic}');
-                    Uri += `topic/${filters.topic}/description/${filters.topic}`;                       
-            };
+                    switch (filters.category) {
+                        case 'All':
+                            Uri = 'http://localhost:3000/posts/';
+                            break;
+
+                        default:
+                            Uri = `http://localhost:3000/posts/category/${filters.category}/`;
+                            break;
+                    };
+
+                    //alert('Uri ' + Uri + ' topic '+ filters.topic.toString().length);
+                    if (filters.topic.toString().length > 1) {
+                            //setUri(prevUri => prevUri + 'topic/${filters.topic}/description/${filters.topic}');
+                            Uri += `topic/${filters.topic}/description/${filters.topic}`;                       
+                    };                    
+                }           
 
             //alert('Uri ' + Uri);
 
             const response = await axios.get<Post[]>(Uri);
             setDados(response.data);  // Atualiza state do componente pagePai
             setError(`Registros encontrados: ${response.data.length}`);
-
+          
         } catch (err) {
             if (axios.isAxiosError(err)) {
                 setError(err.message);

@@ -11,14 +11,13 @@ type NavBarProps = {
 
 const NavBar: React.FC<NavBarProps> = ({nomeUsuario}) => {
 
+const navigate = useNavigate();
 
   const handleLogout = () => {
     if (!!nomeUsuario) { 
-       return false;
+      navigate("/", { state: { id: "", name: "" }});
+      return false;
     }
-
-    const navigate = useNavigate();
-
     navigate("/", { state: { id: "", name: "" }});
 };
 

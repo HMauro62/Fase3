@@ -90,7 +90,7 @@ function LstView({ dados, dadosLogin }: ListaProps) {
         <div className="w-full flex justify-center">
             <div className="w-full max-w-6xl p-0 items-center gap-4"> 
                 <div style={divStyle}>   
-                                    {(!exibirPainelInsertUpdate && dados) && <ReactPaginate
+                    {(!exibirPainelInsertUpdate && dados) && <ReactPaginate
                     breakLabel="..."
                     nextLabel="próximo >"
                     onPageChange={handlePageClick}

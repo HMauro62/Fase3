@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
-import 'react-toastify/dist/ReactToastify.css';
 
 function LoginPage() {
 
@@ -20,8 +19,8 @@ async function handleSubmit(e: React.SubmitEvent) {
       password: password
     }
 
-    if (!username) {
-      console.log('forneça o apelido');
+    if (username === '' ) {
+      alert('Forneça seu apelido e senha.');
       return false;
     } 
 
