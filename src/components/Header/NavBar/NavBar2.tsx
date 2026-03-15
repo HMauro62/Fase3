@@ -37,16 +37,16 @@ return (
 
         {/* Logo à Esquerda */}
         <div className="flex-shrink-0 flex items-center">
-          <span className="text-2xl font-bold text-blue-600 px-3">AvisaLá</span>
+          <span className="text-2xl font-bold text-blue-600 px-3" style={{paddingLeft: '3rem'}}>AvisaLá</span>
         </div>
 
         {nomeUsuario ? (
-          <div className="block md:flex items-center space-x-4">
+          <div className="block md:flex items-center space-x-4" style={{paddingRight: '3rem'}}>
             <span>{nomeUsuario}</span>
             <button onClick={handleLogout}><DoorOpen className="size-6" /></button>
           </div>
         ) : (
-          <div className="block md:flex items-center space-x-4">
+          <div className="block md:flex items-center space-x-4" style={{paddingRight: '2.5rem'}}>
             <Link to="LoginPage" className="text-gray-700 hover:text-blue-600 px-3 py-2 font-medium">
               <DoorClosedLocked className="size-6" />
             </Link>

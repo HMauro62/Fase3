@@ -73,7 +73,7 @@ const FormInsertUpdate: React.FC<Props> = ({ initialData, onGravar, userId }) =>
   }
 
   return (
-    <div style={{ maxWidth: '770px', margin: '0 auto', padding: '20px' }}>
+     <div className="w-full max-w-6xl p-0"> 
       <form onSubmit={handleSubmit}>
         <div style={{ marginBottom: '15px' }}>
           <label htmlFor="category">Categoria:</label>
@@ -82,7 +82,7 @@ const FormInsertUpdate: React.FC<Props> = ({ initialData, onGravar, userId }) =>
           value={formData.category} 
           required
           onChange={handleChangeSelect}
-          style={{ width: '100%', display: 'block' }}
+          style={{ width: '100%', display: 'block', border: '1px solid' }}
         >
               <option value="Selecione..."></option>          
               <option value="Português">Português</option>
@@ -105,7 +105,7 @@ const FormInsertUpdate: React.FC<Props> = ({ initialData, onGravar, userId }) =>
             name="topic"
             value={formData.topic}
             onChange={handleChange}
-            style={{ width: '100%', display: 'block' }}
+            style={{ width: '100%', display: 'block', border: '1px solid' }}
             required
           />
         </div>
@@ -117,18 +117,14 @@ const FormInsertUpdate: React.FC<Props> = ({ initialData, onGravar, userId }) =>
             name="description"
             value={formData.description}
             onChange={handleChange}
-            style={{ width: '100%', display: 'block', minHeight: '100px' }}
+            style={{ width: '100%', display: 'block', minHeight: '100px', border: '1px solid' }}
             required
           />
         </div>
 
-        <div style={{ display: 'flex', gap: '10px' }}>
+        <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end' }}>
           <button type="submit" style={{ backgroundColor: '#4CAF50', color: 'white', padding: '10px 20px', border: 'none', cursor: 'pointer' }} onClick={() => btnGravar()}>
             Gravar
-          </button>
-          
-          <button type="button"  style={{ backgroundColor: '#ccc', padding: '10px 20px', border: 'none', cursor: 'pointer' }}>
-            Voltar
           </button>
         </div>
       </form>

@@ -5,6 +5,8 @@ import axios from "axios";
 import FormInsertUpdate from "../Forms/FormInsertUpdate";
 import React from "react";
 import type { DadosLogin } from "../../types/DadosLogin";
+import ReactPaginate from "react-paginate";
+import './pagination.css';
 
 
 interface ListaProps {
@@ -41,6 +43,21 @@ function LstView({ dados, dadosLogin }: ListaProps) {
         id: ''
       });
 
+      const [itemOffset, setItemOffset] = useState(0);
+      const [itemsPerPage] = useState(5);
+
+      // Pagination calculations
+      const endOffset = itemOffset + itemsPerPage;
+      const currentItems = dados.slice(itemOffset, endOffset);
+      const pageCount = Math.ceil(dados.length / itemsPerPage);
+
+      // Handle page changes
+      const handlePageClick = (event: { selected: number; }) => {
+        const newOffset = (event.selected * itemsPerPage) % dados.length;
+        setItemOffset(newOffset);
+      };
+  
+
     const handleNotify = async (filhoDiz: React.SetStateAction<string>) => {     
 
       window.location.reload();
@@ -59,20 +76,43 @@ function LstView({ dados, dadosLogin }: ListaProps) {
 
     const iconWrapperStyle = {
       display: 'flex',
-      gap: '10px' // Espaçamento entre os dois ícones
+      gap: '10px', // Espaçamento entre os dois ícones
     };
 
+    const divStyle = {
+      display: 'flex',
+      justifyContent: 'flex-end', // Alinha itens à direita
+      gap: '10px',                // Espaçamento entre itens (opcional)
+    }; ///*<div className="w-full max-w-6xl p-4 bg-blue-500 text-white items-center rounded-lg flex gap-4"></div>*/
+
     return (
-
+<div className="p-3">
         <div className="w-full flex justify-center">
-            <div className="w-full max-w-6xl p-4"> 
-
-                <div style={iconWrapperStyle}>
-                    
-
-                        <button 
+            <div className="w-full max-w-6xl p-0 items-center gap-4"> 
+                <div style={divStyle}>   
+                                    {(!exibirPainelInsertUpdate && dados) && <ReactPaginate
+                    breakLabel="..."
+                    nextLabel="próximo >"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={5}
+                    pageCount={pageCount}
+                    previousLabel="< anterior"
+                    containerClassName="pagination" // The main container (<ul>)
+                    pageClassName="page-item" // Each page item (<li>)
+                    pageLinkClassName="page-link" // Each page link (<a>)
+                    previousClassName="page-item"
+                    previousLinkClassName="page-link"
+                    nextClassName="page-item"
+                    nextLinkClassName="page-link"
+                    breakClassName="page-item"
+                    breakLinkClassName="page-link"
+                    activeClassName="active" // The active page item class
+                />}                 
+                
+                    <button 
                         type="submit" 
                         style={{ backgroundColor: '#4CAF50', color: 'white', padding: '10px 20px', border: 'none', cursor: 'pointer' }} 
+                        hidden={exibirPainelInsertUpdate || !dadosLogin}                        
                         onClick={() => {setExibirPainelInsertUpdate(true); 
                             setPostAtual({
                                 user_id: '',
@@ -80,28 +120,28 @@ function LstView({ dados, dadosLogin }: ListaProps) {
                                 topic: '',
                                 description: '',
                                 id: ''                    
-                            })}}
-                        hidden={exibirPainelInsertUpdate || !dadosLogin}
-                        >
-                            Novo
-                        </button>      
-
-                        <button 
+                            })
+                        }}
+                    >
+                        Novo
+                    </button>   
+                          
+                    <button 
                         type="submit" 
-                        style={{ backgroundColor: '#4CAF50', color: 'white', padding: '10px 20px', border: 'none', cursor: 'pointer' }} 
+                        style={{ backgroundColor: '#ccc', padding: '10px 20px', border: 'none', cursor: 'pointer' }} 
                         onClick={() => {setExibirPainelInsertUpdate(false)}}
                         hidden={!exibirPainelInsertUpdate}
-                        >
-                            Voltar
-                        </button>  
+                    >
+                        Voltar
+                    </button>  
 
                 </div>
-               <div className="p-3"></div>     
+                <div className="p-3"></div>     
 
-            {exibirPainelInsertUpdate && 
-              <FormInsertUpdate initialData={postAtual} onGravar={handleNotify} userId={dadosLogin.id} />
-            }              
-                {!exibirPainelInsertUpdate && dados.map((item) => (
+                {exibirPainelInsertUpdate && 
+                    <FormInsertUpdate initialData={postAtual} onGravar={handleNotify} userId={dadosLogin.id} />
+                }              
+                {!exibirPainelInsertUpdate && currentItems.map((item) => (
 
                     <div className="grid grid-rows-1 gap-4">
                         {/* Linha */}
@@ -131,6 +171,7 @@ function LstView({ dados, dadosLogin }: ListaProps) {
                     </div>
                 ))}
             </div>
+        </div>
         </div>
     );
 }
