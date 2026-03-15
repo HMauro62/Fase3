@@ -1,32 +1,18 @@
-//Página de teste na abordagem useAuth
 import { useState } from "react";
-import { useAuth } from '../components/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
-import { AuthProvider } from '../components/context/AuthContext';
-import type { Post } from "../types/Post";
 import axios from "axios";
-import type { UserType } from "../types/User";
+import 'react-toastify/dist/ReactToastify.css';
 
 function LoginPage() {
-  const auth = useAuth();            // Pode ser nulo
-  const login = auth?.login;         // sem definição se login for nulo
+
   const navigate = useNavigate();
 
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-  async function handleSubmit(e: React.SubmitEvent) {
+async function handleSubmit(e: React.SubmitEvent) {
     e.preventDefault();
 
-    // Se está logado? Então não chame a função
-    if (!login) return;   
-
-    await login(username, password);
-
-    //navigate("/");
-  }
-
-  async function btnLogin() {
     let Uri = 'http://localhost:3000/users/loginUsuario';
 
     const dadosLogin = {
@@ -34,14 +20,20 @@ function LoginPage() {
       password: password
     }
 
+    if (!username) {
+      console.log('forneça o apelido');
+      return false;
+    } 
+
     const response = await axios.post(Uri, dadosLogin);
+
+    console.log(response);
 
     if (response.status == 200)
       navigate("/", { state: { id: response.data.id, name: response.data.name }});
   }
 
   return (
-    <AuthProvider>
     <div className="min-h-screen bg-black flex items-center justify-center px-4">
     <form onSubmit={handleSubmit} className="bg-black border border-gray-700 p-6 sm:p-8 rounded-lg w-full max-w-md">
       
@@ -74,11 +66,9 @@ function LoginPage() {
       <button 
        type="submit"
        className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded"
-       onClick={() => btnLogin()}
        >Login</button>
     </form>
     </div>   
-    </AuthProvider>
   );
 }
 export default LoginPage;

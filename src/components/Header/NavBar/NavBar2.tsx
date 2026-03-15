@@ -1,6 +1,5 @@
 import { DoorClosedLocked, DoorOpen } from 'lucide-react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { useAuth } from "../../hooks/useAuth";
+import { Link,  useNavigate } from 'react-router-dom';
 
 /*{ type NavBarProps = É um tipo TypeScript que define quais propriedades (props) o 
   componente NavBar aceita.
@@ -12,14 +11,10 @@ type NavBarProps = {
 
 const NavBar: React.FC<NavBarProps> = ({nomeUsuario}) => {
 
-  // get the context object first, it may be null
-  const auth = useAuth();
-  const user = auth?.user;
-  const logout = auth?.logout;
 
   const handleLogout = () => {
-    if (logout) { 
-       logout();
+    if (!!nomeUsuario) { 
+       return false;
     }
 
     const navigate = useNavigate();

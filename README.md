@@ -10,6 +10,11 @@ npx tailwindcss init -p
 npm install react-router-dom
 npm install lucide-react   ---> para icones
 
+npm install react-paginate  --> paginação
+
+npm install react-toastify -- msg
+
+
 Obs:
 1) Para rodar o react: npm run dev.
 
