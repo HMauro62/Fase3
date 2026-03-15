@@ -64,6 +64,15 @@ function LstView({ dados, dadosLogin }: ListaProps) {
 
     }; 
 
+    function getPrimeiraFrase(texto: string): string {
+      const indexPonto = texto.indexOf('.');
+
+      if (indexPonto !== -1) {
+        return texto.substring(0, indexPonto);
+      } else
+        return texto.substring(0, 100);
+    }
+
     const containerStyle = {
       display: 'flex',
       justifyContent: 'space-between', // Empurra o texto para esquerda e ícones para direita
@@ -149,14 +158,14 @@ function LstView({ dados, dadosLogin }: ListaProps) {
 
                             {/* categorias */}
                             <div className={`bg-blue-500 text-white`} style={containerStyle}>
-                                <div className={`bg-blue-500 text-white p-1`}><b>{item.topic}</b></div>
+                                <div title={getPrimeiraFrase(item.description)} className={`bg-blue-500 text-white p-1`}><b>{item.topic}</b> </div>
                                       <div style={iconWrapperStyle}>
                                 {dadosLogin && (dadosLogin.id === item.user_id) && <Pencil color="white" onClick={() => {setExibirPainelInsertUpdate(true); setPostAtual(item)}}/> }                               
                                 {dadosLogin && (dadosLogin.id === item.user_id) && <Trash color="white"  onClick={() => btnExcluir(item.id)}/>  }
                                     </div>
                             </div>
                             <div style={containerStyle}>                            
-                              <div className="bg-white text-black p-1" >Categoria: <b>{item.category}</b></div>
+                              <div className="bg-white text-black p-1" >Categoria: <b>{item.category}</b><b className={`text-blue-500`}> | </b>Autoria: <b>{item.User.name}</b></div>
                               <div style={iconWrapperStyle}>
                                 <ArrowDown color="#03541b"  onClick={() => setLinhaOculta(item.id)}/> 
                                 <ArrowUp color="#03541b" onClick={() => setLinhaOculta(null)} />  
