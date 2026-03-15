@@ -165,7 +165,7 @@ function LstView({ dados, dadosLogin }: ListaProps) {
                                     </div>
                             </div>
                             <div style={containerStyle}>                            
-                              <div className="bg-white text-black p-1" >Categoria: <b>{item.category}</b><b className={`text-blue-500`}> | </b>Autor: <b>{item.User.name}</b></div>
+                              <div className="bg-white text-black p-1" >Categoria: <b>{item.category}</b><b className={`text-blue-500`}> | </b>Autoria: <b>{item.User.name}</b></div>
                               <div style={iconWrapperStyle}>
                                 <ArrowDown color="#03541b"  onClick={() => setLinhaOculta(item.id)}/> 
                                 <ArrowUp color="#03541b" onClick={() => setLinhaOculta(null)} />  
