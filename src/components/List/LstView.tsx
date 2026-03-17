@@ -1,4 +1,4 @@
-import { ArrowUp , ArrowDown, Link, DoorClosedLocked, PencilLine, Pencil, Trash  } from "lucide-react";
+import { ArrowUp , ArrowDown,  Pencil, Trash  } from "lucide-react";
 import { useEffect, useState } from 'react';
 import type { Post } from '../../types/Post'
 import axios from "axios";
@@ -173,7 +173,7 @@ function LstView({ dados, dadosLogin }: ListaProps) {
                             </div>
                             <div key={item.id} className={`bg-gray-200 text-black p-4 
                             ${linhaOculta === item.id ? 'block' : 'hidden'  }`}>
-                                {item.description}
+                                {item.description} 
                             </div>                           
                         </div>
                         <div className="p-1"></div>

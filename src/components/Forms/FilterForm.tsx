@@ -40,7 +40,7 @@ const FilterForm: React.FC<FilterProps> = ({setDados , dadosLogin}) => {
 
             console.log('logado? ' + !!dadosLogin?.id);
 
-             if (!!dadosLogin.id ) {
+             if (!!dadosLogin?.id ) {
 
                   switch (filters.category) {
                         case 'All':
@@ -57,11 +57,10 @@ const FilterForm: React.FC<FilterProps> = ({setDados , dadosLogin}) => {
                                 Uri += `topic/${filters.topic}/description/${filters.topic}`;                       
                         };
                     
-
             } else  
                 {
 
-                    console.log(filters.category);
+                    //console.log(filters.category);
 
                     switch (filters.category) {
                         case 'All':
@@ -136,7 +135,7 @@ const FilterForm: React.FC<FilterProps> = ({setDados , dadosLogin}) => {
                             </select>
                         </fieldset>
                         
-                        "<fieldset className='md:w-96' style={{width: '80%'}}>                           
+                        <fieldset className='md:w-96' style={{width: '80%'}}>                           
                             <legend>Palavra</legend>
                             <input type="string" id="topic" className=" text-black max-w-6xl w-full" onChange={handleTopicChange} value={filters.topic} />
                         </fieldset>
