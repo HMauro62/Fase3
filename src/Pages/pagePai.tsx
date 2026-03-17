@@ -17,7 +17,7 @@ function PagePai() {
 
     return (
         <div>
-            <FilterForm setDados={setDados}  dadosLogin={location.state}  setDadosLogin={setDadosLogin} />
+            <FilterForm setDados={setDados}  dadosLogin={location.state} />
             <LstView dados={dados} dadosLogin={location.state} />
         </div>
 

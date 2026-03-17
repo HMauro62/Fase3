@@ -40,7 +40,7 @@ function LstView({ dados, dadosLogin }: ListaProps) {
         category: '',
         topic: '',
         description: '',
-        id: ''
+        id: '',
       });
 
       const [itemOffset, setItemOffset] = useState(0);
@@ -101,11 +101,11 @@ function LstView({ dados, dadosLogin }: ListaProps) {
                 <div style={divStyle}>   
                     {(!exibirPainelInsertUpdate && dados) && <ReactPaginate
                     breakLabel="..."
-                    nextLabel="próximo >"
+                    nextLabel=" >"
                     onPageChange={handlePageClick}
                     pageRangeDisplayed={5}
                     pageCount={pageCount}
-                    previousLabel="< anterior"
+                    previousLabel="< "
                     containerClassName="pagination" // The main container (<ul>)
                     pageClassName="page-item" // Each page item (<li>)
                     pageLinkClassName="page-link" // Each page link (<a>)
@@ -158,14 +158,14 @@ function LstView({ dados, dadosLogin }: ListaProps) {
 
                             {/* categorias */}
                             <div className={`bg-blue-500 text-white`} style={containerStyle}>
-                                <div title={getPrimeiraFrase(item.description)} className={`bg-blue-500 text-white p-1`}><b>{item.topic}</b> </div>
+                                <div title={getPrimeiraFrase(item.description)} className={`bg-blue-500 text-white p-1 text-sm`}><b>{item.topic}</b> </div>
                                       <div style={iconWrapperStyle}>
                                 {dadosLogin && (dadosLogin.id === item.user_id) && <Pencil color="white" onClick={() => {setExibirPainelInsertUpdate(true); setPostAtual(item)}}/> }                               
                                 {dadosLogin && (dadosLogin.id === item.user_id) && <Trash color="white"  onClick={() => btnExcluir(item.id)}/>  }
                                     </div>
                             </div>
                             <div style={containerStyle}>                            
-                              <div className="bg-white text-black p-1" >Categoria: <b>{item.category}</b><b className={`text-blue-500`}> | </b>Autoria: <b>{item.User.name}</b></div>
+                              <div className="bg-white text-black p-1" ><b>{item.category}</b><b className={`text-blue-500`}> | </b>Mestre: <b>{item.User?.name.substring(0,8)}</b></div>
                               <div style={iconWrapperStyle}>
                                 <ArrowDown color="#03541b"  onClick={() => setLinhaOculta(item.id)}/> 
                                 <ArrowUp color="#03541b" onClick={() => setLinhaOculta(null)} />  

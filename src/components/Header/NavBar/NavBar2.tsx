@@ -36,8 +36,9 @@ return (
 
         {nomeUsuario ? (
           <div className="block md:flex items-center space-x-4" style={{paddingRight: '3rem'}}>
-            <span>{nomeUsuario}</span>
-            <button onClick={handleLogout}><DoorOpen className="size-6" /></button>
+            <span className='text-xs'>{nomeUsuario}
+            &nbsp;<button onClick={handleLogout}><DoorOpen className="size-6" /></button>
+            </span>
           </div>
         ) : (
           <div className="block md:flex items-center space-x-4" style={{paddingRight: '2.5rem'}}>

@@ -2,6 +2,8 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import type { Post } from '../../types/Post';
 import type { DadosLogin } from "../../types/DadosLogin";
+import { Search  } from 'lucide-react';
+
 
 interface Filter {
     category: string;
@@ -16,7 +18,7 @@ interface FilterProps {
 
 const FilterForm: React.FC<FilterProps> = ({setDados , dadosLogin}) => {
 
-    console.log('usuario logado?' + dadosLogin.id);
+    //console.log(dadosLogin?.id);
 
     const [error, setError] = useState<string>('');
 
@@ -35,8 +37,10 @@ const FilterForm: React.FC<FilterProps> = ({setDados , dadosLogin}) => {
             setError("");
 
             let Uri = '';
-            
-            if (!!dadosLogin.id === true) {
+
+            console.log('logado? ' + !!dadosLogin?.id);
+
+             if (!!dadosLogin.id ) {
 
                   switch (filters.category) {
                         case 'All':
@@ -44,7 +48,7 @@ const FilterForm: React.FC<FilterProps> = ({setDados , dadosLogin}) => {
                             break;
 
                         default:
-                            Uri = `http://localhost:3000/posts/prof/${dadosLogin.id}category/${filters.category}/`;
+                            Uri = `http://localhost:3000/posts/prof/${dadosLogin.id}/category/${filters.category}/`;
                             break;
                     };           
                     
@@ -54,8 +58,10 @@ const FilterForm: React.FC<FilterProps> = ({setDados , dadosLogin}) => {
                         };
                     
 
-            } else 
+            } else  
                 {
+
+                    console.log(filters.category);
 
                     switch (filters.category) {
                         case 'All':
@@ -74,7 +80,7 @@ const FilterForm: React.FC<FilterProps> = ({setDados , dadosLogin}) => {
                     };                    
                 }           
 
-            //alert('Uri ' + Uri);
+            console.log('Uri ' + Uri);
 
             const response = await axios.get<Post[]>(Uri);
             setDados(response.data);  // Atualiza state do componente pagePai
@@ -129,14 +135,18 @@ const FilterForm: React.FC<FilterProps> = ({setDados , dadosLogin}) => {
                                 <option value="Biologia">Biologia</option>  
                             </select>
                         </fieldset>
-                            <fieldset className='md:w-96' style={{width: '80%'}}>
-                            <legend>Palavras Chaves</legend>
+                        
+                        "<fieldset className='md:w-96' style={{width: '80%'}}>                           
+                            <legend>Palavra</legend>
                             <input type="string" id="topic" className=" text-black max-w-6xl w-full" onChange={handleTopicChange} value={filters.topic} />
                         </fieldset>
-                                            <button type="button" className="bg-blue-600 text-white px-4 py-2 rounded-lg
-                                hover:bg-blue-900 transition-colors font-medium text-sm" onClick={() => btnSearch()}>
-                        Pesquisar
-                    </button>                  
+                        <button type="button" className= 'font-medium text-sm bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-900 transition-colors'  
+                         onClick={() => btnSearch()}>
+                        <Search className="size-6" /> 
+                        </button>
+                        : 
+
+
                     </div>
 
                 </div>
