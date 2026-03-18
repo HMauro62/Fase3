@@ -8,7 +8,7 @@ import ReactPaginate from "react-paginate";
 import './pagination.css';
 
 
-type ListaProps = {
+interface ListaProps {
     dados: Post[];
     dadosLogin: DadosLogin;
 }
