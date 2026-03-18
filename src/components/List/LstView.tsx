@@ -33,7 +33,7 @@ function LstView({ dados, dadosLogin }: ListaProps) {
     const [linhaOculta, setLinhaOculta] = useState<string | null>(null);
 
     const [exibirPainelInsertUpdate, setExibirPainelInsertUpdate] = useState(false);
-    
+
     const [postAtual, setPostAtual] = useState<Post>({
         user_id: '',
         category: '',
@@ -57,11 +57,11 @@ function LstView({ dados, dadosLogin }: ListaProps) {
       };
   
 
-    const handleNotify = async (filhoDiz: React.SetStateAction<string>) => {     
+    const handleNotify = async () => {     
 
       window.location.reload();
 
-    };  
+    };   
 
     function getPrimeiraFrase(texto: string): string {
       const indexPonto = texto.indexOf('.');
@@ -120,16 +120,16 @@ function LstView({ dados, dadosLogin }: ListaProps) {
                     <button 
                         type="submit" 
                         style={{ backgroundColor: '#4CAF50', color: 'white', padding: '10px 20px', border: 'none', cursor: 'pointer' }} 
-                        hidden={exibirPainelInsertUpdate || !dadosLogin}                        
-                        onClick={() => {setExibirPainelInsertUpdate(true); 
+                        hidden={exibirPainelInsertUpdate || !dadosLogin?.id}                        
+                        onClick={() => {setExibirPainelInsertUpdate(true);
                             setPostAtual({
                                 user_id: '',
                                 category: '',
                                 topic: '',
                                 description: '',
                                 id: ''                    
-                            })
-                        }}
+                            })                            
+                        } }
                     >
                         Novo
                     </button>   

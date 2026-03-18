@@ -143,15 +143,12 @@ const FilterForm: React.FC<FilterProps> = ({setDados , dadosLogin}) => {
                          onClick={() => btnSearch()}>
                         <Search className="size-6" /> 
                         </button>
-                        : 
-
-
                     </div>
 
                 </div>
                 <div className="flex md:flex-row justify-center items-center gap-4
                             bg-gray-50 p-6 py-2 md:px-96" style={{padding: '5px 180px'}}>
-                    {error && <p className="text-blue-500 text-xs"><h3><b>Retorno:{error}</b></h3></p>}
+                    {error && <p className="text-blue-500 text-xs"><b>Retorno:{error}</b></p>}
                 </div>
             </form>
         </div>
