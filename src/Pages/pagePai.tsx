@@ -7,7 +7,7 @@ import type { DadosLogin } from '../types/DadosLogin';
 
 function PagePai() {
 
-    const [dados, setDados] = useState<Post[] | unknown>([]);
+    const [dados, setDados] = useState<Post[]>([]);
     const [dadosLogin, setDadosLogin] = useState<DadosLogin | unknown>(null)
 
     const location = useLocation();

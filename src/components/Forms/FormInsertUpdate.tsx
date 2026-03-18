@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { useState, type ChangeEvent, type FormEvent } from 'react';
 import type { Post } from '../../types/Post';
-import { toast } from 'react-toastify';
 
 interface Props {
   initialData?: Post;

@@ -27,10 +27,10 @@ const FilterForm: React.FC<FilterProps> = ({setDados , dadosLogin}) => {
         topic: ' ',
     });
 
-    const data: Filter = {
+/*     const data: Filter = {
         category: filters.category,
         topic: filters.topic
-    }
+    } */
 
     const SearchPostsByGet = async () => {
         try {

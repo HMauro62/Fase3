@@ -1,15 +1,14 @@
 import { ArrowUp , ArrowDown,  Pencil, Trash  } from "lucide-react";
-import { useEffect, useState } from 'react';
+import {  useState } from 'react';
 import type { Post } from '../../types/Post'
 import axios from "axios";
 import FormInsertUpdate from "../Forms/FormInsertUpdate";
-import React from "react";
 import type { DadosLogin } from "../../types/DadosLogin";
 import ReactPaginate from "react-paginate";
 import './pagination.css';
 
 
-interface ListaProps {
+type ListaProps = {
     dados: Post[];
     dadosLogin: DadosLogin;
 }
@@ -62,7 +61,7 @@ function LstView({ dados, dadosLogin }: ListaProps) {
 
       window.location.reload();
 
-    }; 
+    };  
 
     function getPrimeiraFrase(texto: string): string {
       const indexPonto = texto.indexOf('.');
