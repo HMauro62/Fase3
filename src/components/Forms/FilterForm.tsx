@@ -83,7 +83,7 @@ const FilterForm: React.FC<FilterProps> = ({setDados , dadosLogin}) => {
 
             const response = await axios.get<Post[]>(Uri);
             setDados(response.data);  // Atualiza state do componente pagePai
-            setError(`Registros encontrados: ${response.data.length}`);
+            setError(` ${response.data.length}`);
           
         } catch (err) {
             if (axios.isAxiosError(err)) {
@@ -151,7 +151,7 @@ const FilterForm: React.FC<FilterProps> = ({setDados , dadosLogin}) => {
                 </div>
                 <div className="flex md:flex-row justify-center items-center gap-4
                             bg-gray-50 p-6 py-2 md:px-96" style={{padding: '5px 180px'}}>
-                    {error && <p className="text-blue-500"><b>{error}</b></p>}
+                    {error && <p className="text-blue-500 text-xs"><b>Retorno:{error}</b></p>}
                 </div>
             </form>
         </div>
