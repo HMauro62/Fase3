@@ -3,13 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 
 function LoginPage() {
-
   const navigate = useNavigate();
-
   const [username, setUserName] = useState("");
   const [password, setPassword] = useState("");
 
-async function handleSubmit(e: React.SubmitEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
     let Uri = 'http://localhost:3000/users/loginUsuario';
@@ -24,12 +22,23 @@ async function handleSubmit(e: React.SubmitEvent) {
       return false;
     } 
 
-    const response = await axios.post(Uri, dadosLogin);
+    try {
+      const response = await axios.post(Uri, dadosLogin);
 
-    console.log(response);
-
-    if (response.status == 200)
-      navigate("/", { state: { id: response.data.id, name: response.data.name }});
+      if (response.status === 200) {
+        // Salvando os dados no navegador (Adicionei um isAdmin provisório para você testar)
+        const userData = {
+          id: response.data.id,
+          name: response.data.name,
+          isAdmin: response.data.isAdmin || true // Coloquei true para você conseguir acessar o CRUD agora
+        };
+        
+        localStorage.setItem("usuarioLogado", JSON.stringify(userData));
+        navigate("/");
+      }
+    } catch (error) {
+      alert("Erro ao fazer login. Verifique suas credenciais.");
+    }
   }
 
   return (
@@ -43,7 +52,7 @@ async function handleSubmit(e: React.SubmitEvent) {
         <input
           type="text"
           className="w-full bg-black text-white border border-gray-600 px-3 py-2 rounded 
-                     focus:outline-none focus:border-blue-500"
+                       focus:outline-none focus:border-blue-500"
           placeholder="Seu apelido"
           value={username}
           onChange={(e) => setUserName(e.target.value)}
@@ -55,7 +64,7 @@ async function handleSubmit(e: React.SubmitEvent) {
         <input
           type="password"
           className="w-full bg-black text-white border border-gray-600 px-3 py-2 rounded 
-                     focus:outline-none focus:border-blue-500"
+                       focus:outline-none focus:border-blue-500"
           placeholder="*********"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
