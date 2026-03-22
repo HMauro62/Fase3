@@ -18,19 +18,12 @@ interface FilterProps {
 
 const FilterForm: React.FC<FilterProps> = ({setDados , dadosLogin}) => {
 
-    //console.log(dadosLogin?.id);
-
     const [error, setError] = useState<string>('');
 
     const [filters, setFilters] = React.useState<Filter>({
         category: 'All',
         topic: ' ',
     });
-
-/*     const data: Filter = {
-        category: filters.category,
-        topic: filters.topic
-    } */
 
     const SearchPostsByGet = async () => {
         try {
@@ -148,7 +141,7 @@ const FilterForm: React.FC<FilterProps> = ({setDados , dadosLogin}) => {
                 </div>
                 <div className="flex md:flex-row justify-center items-center gap-4
                             bg-gray-50 p-6 py-2 md:px-96" style={{padding: '5px 180px'}}>
-                    {error && <p className="text-blue-500 text-xs"><b>Retorno:{error}</b></p>}
+                    {error && <p className="text-blue-500 text-xs"><b>Retorno:{error} itens</b></p>}
                 </div>
             </form>
         </div>

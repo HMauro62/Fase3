@@ -13,14 +13,10 @@ const NavBar: React.FC<NavBarProps> = ({nomeUsuario}) => {
 
 const navigate = useNavigate();
 
-  const handleLogout = () => {
-    if (!!nomeUsuario) { 
-      navigate("/", { state: { id: "", name: "" }});
-      return false;
-    }
-    navigate("/", { state: { id: "", name: "" }});
-};
-
+function handleLogout() {
+  localStorage.removeItem("usuarioLogado");
+  window.location.reload();
+}
 
 return (
   <nav className="bg-white shadow-md">
@@ -36,9 +32,8 @@ return (
 
         {nomeUsuario ? (
           <div className="block md:flex items-center space-x-4" style={{paddingRight: '3rem'}}>
-            <span className='text-xs'>{nomeUsuario}
+            <span className='text-xs'>{nomeUsuario}</span>
             &nbsp;<button onClick={handleLogout}><DoorOpen className="size-6" /></button>
-            </span>
           </div>
         ) : (
           <div className="block md:flex items-center space-x-4" style={{paddingRight: '2.5rem'}}>

@@ -15,18 +15,8 @@ function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-black">
+    <div className="min-h-screen">
         <Navbar nomeUsuario={user ? user.name : ""} />        
-        
-        <div className="flex justify-end px-8 py-2 border-b border-gray-800">
-            <button 
-              onClick={handleLogout} 
-              className="bg-red-600 hover:bg-red-700 text-white py-1 px-4 rounded font-semibold text-sm"
-            >
-              Sair (Logout)
-            </button>
-        </div>
-
         <PagePai />      
     </div>
   );

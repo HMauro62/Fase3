@@ -2,23 +2,18 @@ import { useState } from 'react';
 import FilterForm from '../components/Forms/FilterForm';
 import LstView from '../components/List/LstView';
 import type { Post } from '../types/Post';
-import { useLocation } from 'react-router-dom';
-import type { DadosLogin } from '../types/DadosLogin';
 
 function PagePai() {
 
     const [dados, setDados] = useState<Post[]>([]);
-    const [dadosLogin, setDadosLogin] = useState<DadosLogin | unknown>(null)
 
-    const location = useLocation();
-
-    if (!dadosLogin && location.state)
-      setDadosLogin(location.state)
+    const userStorage = localStorage.getItem("usuarioLogado");
+    const user = userStorage ? JSON.parse(userStorage) : null;
 
     return (
         <div>
-            <FilterForm setDados={setDados}  dadosLogin={location.state} />
-            <LstView dados={dados} dadosLogin={location.state} />
+            <FilterForm setDados={setDados}  dadosLogin={user} />
+            <LstView dados={dados} dadosLogin={user} />
         </div>
 
     );

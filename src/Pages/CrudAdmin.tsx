@@ -1,17 +1,107 @@
-import { useState } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
+import type { UserType } from "../types/User";
+import axios from "axios";
 
 function CrudAdmin() {
+
   const navigate = useNavigate();
   // Estado provisório para simular uma lista de usuários
-  const [users, setUsers] = useState([
-    { id: 1, name: "Admin Teste", username: "admin", role: "Admin" },
+  const [users, setUsers] = useState<UserType[]>([
+    { id: "1", name: "Admin Teste", username: "admin", password:"admin", role:"Admin"},
   ]);
+
+  // Inicializa o estado com dados existentes (edição) ou campos vazios (inclusão)
+  const [formData, setFormData] = useState<UserType>({
+    id: "",
+    name: "",
+    username: "",
+    password: "",
+    role: "",
+  });
+
+  useEffect(() => {
+
+    reloadUsers();
+
+    console.log("Componente montado com sucesso!");
+  }, []); 
+
+  async function reloadUsers() {
+    let Uri = `http://localhost:3000/users/`;
+    let response = await axios.get<UserType[]>(Uri);
+    setUsers(response.data);
+  }
 
   function handleLogout() {
     localStorage.removeItem("usuarioLogado");
     navigate("/LoginPage");
   }
+
+  async function btnGravar() {
+
+    if ((!formData.name) || (!formData.username) || (!formData.password)) {
+      window.alert("Informe: nome, login e senha.");
+      return;
+    }
+
+    let Uri = `http://localhost:3000/users/`;
+    let response: Response;
+
+    if (!formData.id || (formData.id === '')) {
+        response = await axios.post(Uri, {
+        name: formData.name,
+        username: formData.username,
+        password: formData.password,
+        role: 'Professor'      
+        });
+    } else {
+        response = await axios.put(Uri + formData.id, formData);
+    }
+
+    if ((response.status === 200) || (response.status === 201)) {
+      formData.id = '';
+      formData.name = '';
+      formData.username = '';
+      formData.password = '';
+      formData.role = '';
+      reloadUsers();
+    }
+
+  }
+  
+  async function btnExcluir(id: string) {
+
+      const result = window.confirm("Você tem certeza que deseja excluir ?");
+      
+      if (result) {
+          let Uri = `http://localhost:3000/users/` + id;
+
+          const response = await axios.delete(Uri);
+
+          if (response.status === 200)
+              reloadUsers();
+      }
+
+  }  
+
+  // Manipulador genérico para os inputs
+  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };  
+
+  const handleChangeSelect = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    console.log("name value", name + value)
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value 
+    }));
+  };  
 
   return (
     <div className="min-h-screen bg-black text-white p-8">
@@ -31,24 +121,23 @@ function CrudAdmin() {
           <form className="space-y-4">
             <div>
               <label className="block mb-1 text-sm">Nome Completo</label>
-              <input type="text" className="w-full bg-black border border-gray-600 px-3 py-2 rounded focus:outline-none focus:border-blue-500" />
+              <input type="text" id="name" name="name" value={formData.name} onChange={handleChange} className="w-full bg-black border border-gray-600 px-3 py-2 rounded focus:outline-none focus:border-blue-500" />
             </div>
             <div>
               <label className="block mb-1 text-sm">Apelido (Login)</label>
-              <input type="text" className="w-full bg-black border border-gray-600 px-3 py-2 rounded focus:outline-none focus:border-blue-500" />
+              <input type="text" id="username" name="username" value={formData.username} onChange={handleChange} className="w-full bg-black border border-gray-600 px-3 py-2 rounded focus:outline-none focus:border-blue-500" />
             </div>
             <div>
               <label className="block mb-1 text-sm">Senha</label>
-              <input type="password" className="w-full bg-black border border-gray-600 px-3 py-2 rounded focus:outline-none focus:border-blue-500" />
+              <input type="password" id="password" name="password" value={formData.password} onChange={handleChange} className="w-full bg-black border border-gray-600 px-3 py-2 rounded focus:outline-none focus:border-blue-500" />
             </div>
             <div>
               <label className="block mb-1 text-sm">Cargo</label>
-              <select className="w-full bg-black border border-gray-600 px-3 py-2 rounded focus:outline-none focus:border-blue-500">
-                <option value="user">Professor (Comum)</option>
-                <option value="admin">Administrador</option>
+              <select id="role" name="role" value={formData.role} required onChange={handleChangeSelect} className="w-full bg-black border border-gray-600 px-3 py-2 rounded focus:outline-none focus:border-blue-500">
+                <option value="Professor">Professor</option>
               </select>
             </div>
-            <button type="button" className="w-full bg-green-600 hover:bg-green-700 py-2 rounded font-semibold">
+            <button type="button" onClick={() => btnGravar()} className="w-full bg-green-600 hover:bg-green-700 py-2 rounded font-semibold">
               Salvar Usuário
             </button>
           </form>
@@ -78,8 +167,8 @@ function CrudAdmin() {
                       </span>
                     </td>
                     <td className="py-2 px-4 text-center space-x-2">
-                      <button className="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded text-sm">Editar</button>
-                      <button className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">Excluir</button>
+                      <button onClick={() => {setFormData(u)}} className="bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-1 rounded text-sm">Editar</button>
+                      <button onClick={() => btnExcluir(u.id)} hidden={u.role === "Admin"} className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">Excluir</button>
                     </td>
                   </tr>
                 ))}

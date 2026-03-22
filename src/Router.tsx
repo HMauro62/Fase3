@@ -12,9 +12,7 @@ function Router() {
                 
                 {/* Rota Home: Só entra se estiver logado */}
                 <Route path="/" element={
-                    <ProtectedRoute>
-                        <Home />
-                    </ProtectedRoute>
+                    <Home />
                 } />
 
                 {/* Rota do CRUD: Só entra se estiver logado E for Admin */}

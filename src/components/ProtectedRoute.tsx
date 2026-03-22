@@ -6,7 +6,9 @@ type ProtectedRouteProps = {
 };
 
 function ProtectedRoute({ children, requireAdmin = false }: ProtectedRouteProps) {
+
   const userStorage = localStorage.getItem("usuarioLogado");
+  
   const user = userStorage ? JSON.parse(userStorage) : null;
 
   if (!user) {

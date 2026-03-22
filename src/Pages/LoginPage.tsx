@@ -10,6 +10,13 @@ function LoginPage() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
 
+    const botao = (e.nativeEvent as SubmitEvent).submitter as HTMLButtonElement;
+
+    if (botao.name === 'sair') {
+      navigate("/");
+      return
+    }
+
     let Uri = 'http://localhost:3000/users/loginUsuario';
 
     const dadosLogin = {
@@ -17,7 +24,7 @@ function LoginPage() {
       password: password
     }
 
-    if (username === '' ) {
+    if ((username === '' ) || (password === '' )) {
       alert('Forneça seu apelido e senha.');
       return false;
     } 
@@ -25,12 +32,11 @@ function LoginPage() {
     try {
       const response = await axios.post(Uri, dadosLogin);
 
-      if (response.status === 200) {
-        // Salvando os dados no navegador (Adicionei um isAdmin provisório para você testar)
+      if ((response.status === 200) || (response.status === 201)) {
         const userData = {
           id: response.data.id,
           name: response.data.name,
-          isAdmin: response.data.isAdmin || true // Coloquei true para você conseguir acessar o CRUD agora
+          isAdmin: response.data.role === 'Admin'
         };
         
         localStorage.setItem("usuarioLogado", JSON.stringify(userData));
@@ -40,6 +46,12 @@ function LoginPage() {
       alert("Erro ao fazer login. Verifique suas credenciais.");
     }
   }
+
+  const containerBotoes = {
+    display: 'flex',
+  //  flexDirection: 'row',   
+    gap: '10px'          
+  };
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center px-4">
@@ -71,10 +83,24 @@ function LoginPage() {
         />
       </div>
 
-      <button 
-       type="submit"
-       className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded"
-       >Login</button>
+      <div style={containerBotoes}>
+        <button 
+          type="submit"
+          className="col w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded"
+        >
+          Login
+        </button>
+
+        <button 
+          id="sair"
+          name="sair"
+          type="submit"
+          className="col w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded"
+        >
+          Voltar para Home
+        </button>  
+       </div>     
+
     </form>
     </div>   
   );
